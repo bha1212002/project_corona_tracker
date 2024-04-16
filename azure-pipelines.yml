@@ -13,11 +13,20 @@ steps:
   inputs:
     versionSpec: '10.x'
   displayName: 'Install Node.js'
+- task: PublishBuildArtifacts@1
+  inputs:
+    PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+    ArtifactName: 'drop'
+    publishLocation: 'Container'
+    MaxArtifactSize: 1
+  
+
 
 - script: |
     npm install
     npm run build
-    cp -cr /home/einfochips/mypipe/_work/8/s* .
+    ls -la /home/einfochips/mypipe/_work/8/s/* .
+    cp -r /home/einfochips/mypipe/_work/8/s/* .
   displayName: 'npm install and build'
 - task: Npm@1
   inputs:
