@@ -1,8 +1,3 @@
-# Node.js with React
-# Build a Node.js project that uses React.
-# Add steps that analyze code, save build artifacts, deploy, and more:
-# https://docs.microsoft.com/azure/devops/pipelines/languages/javascript
-
 trigger:
 - master
 
@@ -20,21 +15,26 @@ steps:
     workingDir: '/home/einfochips/mypipe/_work/8/s/'
     customRegistry: 'useFeed'
     customFeed: '974bcf44-2fa8-4468-943e-10a4c93d77e1/0405bf4d-ab33-4399-80c0-4d677ec5fd52'
+
+- script: |
+    npm install
+    npm run build
+  displayName: 'npm install and build'
+
+- task: PowerShell@2
+  inputs:
+    targetType: 'inline'
+    script: |
+      # Tagging the build
+      $buildNumber = "$(Build.BuildNumber)"
+      $tagName = "v$buildNumber" # Assuming you want to use the build number as the tag
+      git tag $tagName
+      git push origin $tagName
+  displayName: 'Tagging build'
+
 - task: PublishBuildArtifacts@1
   inputs:
     PathtoPublish: '$(Build.ArtifactStagingDirectory)'
     ArtifactName: 'drop'
     publishLocation: 'Container'
     MaxArtifactSize: 1
-  
-
-- task: CopyFiles@2
-  inputs:
-    targetFolder: '$(Build.ArtifactStagingDirectory)'
-
-   
-- script: |
-    npm install
-    npm run build
-  displayName: 'npm install and build'
-
