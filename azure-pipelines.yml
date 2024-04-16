@@ -9,12 +9,21 @@ steps:
     versionSpec: '10.x'
   displayName: 'Install Node.js'
 
-- task: Npm@1
-  inputs:
-    command: 'install'
-    workingDir: '/home/einfochips/mypipe/_work/8/s/'
-    customRegistry: 'useFeed'
-    customFeed: '974bcf44-2fa8-4468-943e-10a4c93d77e1/0405bf4d-ab33-4399-80c0-4d677ec5fd52'
+- script: |
+    npm cache clean --force
+    npm install
+  displayName: 'Clear npm cache and install dependencies'
+
+- script: |
+    echo "Adding missing fields to package.json"
+    echo '{"repository": "https://github.com/bha1212002/project_corona_tracker"}' > package.json.tmp
+    jq -s '.[0] * .[1]' package.json package.json.tmp > package.json
+    rm package.json.tmp
+  displayName: 'Update package.json'
+
+- script: |
+    npm install parse5@latest ws@latest jest-get-type@latest
+  displayName: 'Install specific versions of dependencies'
 
 - script: |
     npm install
