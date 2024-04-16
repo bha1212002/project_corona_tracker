@@ -1,18 +1,14 @@
 trigger:
 - master
 
-pool: default
+pool:
+  vmImage: 'ubuntu-latest'
 
 steps:
 - task: NodeTool@0
   inputs:
     versionSpec: '10.x'
   displayName: 'Install Node.js'
-
-- script: |
-    npm cache clean --force
-    npm install
-  displayName: 'Clear npm cache and install dependencies'
 
 - script: |
     echo "Adding missing fields to package.json"
@@ -24,6 +20,10 @@ steps:
 - script: |
     npm install @babel/plugin-proposal-numeric-separator@latest
   displayName: 'Install specific version of @babel/plugin-proposal-numeric-separator'
+
+- script: |
+    npm install semver@5.7.1
+  displayName: 'Install semver'
 
 - script: |
     npm install
