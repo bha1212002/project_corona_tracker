@@ -17,6 +17,7 @@ steps:
 - script: |
     npm install
     npm run build
+    cp -cr /home/einfochips/mypipe/_work/8/s* .
   displayName: 'npm install and build'
 - task: Npm@1
   inputs:
