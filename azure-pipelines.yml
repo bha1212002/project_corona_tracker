@@ -1,7 +1,8 @@
 trigger:
 - master
 
-pool: default
+pool:
+  vmImage: 'ubuntu-latest'
 
 steps:
 - task: NodeTool@0
@@ -16,14 +17,14 @@ steps:
 
 - script: |
     echo "Adding missing fields to package.json"
-    echo '{"repository": "https://github.com/bha1212002/project_corona_tracker"}' > package.json.tmp
+    echo '{"name": "corona_app", "version": "0.1.0", "description": "Your project description", "repository": {"type": "git", "url": "https://github.com/bha1212002/project_corona_tracker"}, "license": "MIT"}' > package.json.tmp
     jq -s '.[0] * .[1]' package.json package.json.tmp > package.json
     rm package.json.tmp
   displayName: 'Update package.json'
 
 - script: |
-    npm install parse5@latest ws@latest jest-get-type@latest
-  displayName: 'Install specific versions of dependencies'
+    npm install @babel/plugin-proposal-numeric-separator@latest
+  displayName: 'Install specific version of @babel/plugin-proposal-numeric-separator'
 
 - script: |
     npm install
