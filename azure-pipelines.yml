@@ -16,9 +16,6 @@ steps:
     rm package.json.tmp
   displayName: 'Update package.json'
 
-- script: |
-    npm install @babel/plugin-proposal-numeric-separator@latest
-  displayName: 'Install specific version of @babel/plugin-proposal-numeric-separator'
 
 - script: |
     npm install semver@5.7.1
