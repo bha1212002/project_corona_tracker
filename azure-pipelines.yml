@@ -32,11 +32,6 @@ steps:
   inputs:
     targetFolder: '$(Build.ArtifactStagingDirectory)'
 
-- task: Npm@1
-  inputs:
-    command: 'publish'
-    publishRegistry: 'useFeed'
-    publishFeed: '974bcf44-2fa8-4468-943e-10a4c93d77e1/0405bf4d-ab33-4399-80c0-4d677ec5fd52'
    
 - script: |
     npm install
